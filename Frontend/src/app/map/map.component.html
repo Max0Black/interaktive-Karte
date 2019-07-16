@@ -1,3 +1,3 @@
-<div (click)="doClick($event)">
-  <img src="../../Bilder/Altis.png" alt="Altis">
+<div class="interaktiv" (click)="doClick($event)">
+  <img *ngIf="ein" [ngStyle]="getStyle()" src="../../Bilder/X.png">
 </div>
