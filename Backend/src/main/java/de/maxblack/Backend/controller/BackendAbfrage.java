@@ -15,6 +15,7 @@ public class BackendAbfrage {
 
     @RequestMapping(method = RequestMethod.POST, path = "/addEintrag", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void addMarker(@RequestBody Marker marker) {
+        System.out.println(marker.getPositionX());
         anfrage.exportiereMarker(marker);
     }
 

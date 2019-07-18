@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {MarkerModel} from '../model/markerModel';
+import {AbfrageBackend} from '../abfragen/abfrageBackend';
 
 @Component({
   selector: 'app-map',
@@ -12,7 +13,7 @@ export class MapComponent {
   ein = false;
   marker: MarkerModel[] = [];
 
-  constructor() { }
+  constructor(private abfrage: AbfrageBackend) { }
 
   onKey(event: KeyboardEvent) {
     this.text = (event.target as HTMLInputElement).value;
@@ -30,6 +31,7 @@ export class MapComponent {
     this.ein = false;
     this.marker.push(model);
     this.ein = true;
+    this.abfrage.addEintrag(model);
   }
 
   getStyle(position: MarkerModel) {
