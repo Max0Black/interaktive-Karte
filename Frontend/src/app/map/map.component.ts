@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {MarkerModel} from '../model/markerModel';
 
 @Component({
   selector: 'app-map',
@@ -7,28 +8,35 @@ import { Component } from '@angular/core';
 })
 export class MapComponent {
 
+  text = '';
   ein = false;
-  offsetX = 0;
-  offsetY = 0;
+  marker: MarkerModel[] = [];
 
   constructor() { }
 
-  doClick(event) {
-    let x = event.x;
-    let y = event.y;
-    this.offsetX = event.offsetX;
-    this.offsetY = event.offsetY;
-    console.log(this.offsetX);
-    console.log(this.offsetY);
+  onKey(event: KeyboardEvent) {
+    this.text = (event.target as HTMLInputElement).value;
+  }
 
+  doClick(event) {
+    const model = new MarkerModel();
+    const x = event.x;
+    const y = event.y;
+
+    model.positionX = event.offsetX;
+    model.positionY = event.offsetY;
+    model.text = this.text;
+
+    this.ein = false;
+    this.marker.push(model);
     this.ein = true;
   }
 
-  getStyle() {
-    let tsStyle = {
-      'position': 'absolute',
-      'left': this.offsetX + 'px',
-      'top': this.offsetY + 'px'
+  getStyle(position: MarkerModel) {
+    const tsStyle = {
+      position: 'absolute',
+      left: position.positionX + 'px',
+      top: position.positionY + 'px'
     };
 
     return tsStyle;
