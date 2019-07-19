@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {MarkerModel} from '../model/markerModel';
 import {AbfrageBackend} from '../abfragen/abfrageBackend';
+import {timer} from "rxjs";
 
 @Component({
   selector: 'app-map',
@@ -10,14 +11,26 @@ import {AbfrageBackend} from '../abfragen/abfrageBackend';
 export class MapComponent {
 
   marker: MarkerModel[] = [];
+  intervall = timer(1, 100);
 
   constructor(private abfrage: AbfrageBackend) {
     this.getAllMarker();
+    this.intervall.subscribe(tick => {
+      this.pruefeMarker();
+    })
   }
 
   getAllMarker() {
     this.abfrage.getEintraege().subscribe(value => {
       this.marker = value;
+    });
+  }
+
+  pruefeMarker() {
+    this.abfrage.getEintraege().subscribe(value => {
+      if (value.length !== this.marker.length) {
+        this.marker = value;
+      }
     });
   }
 
