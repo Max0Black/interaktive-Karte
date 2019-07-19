@@ -34,7 +34,11 @@ public class ExportToCsv {
             sb.append(';');
             sb.append(marker.getPositionY());
             sb.append(';');
-            sb.append(marker.getText());
+            if (marker.getText().length() == 0) {
+                sb.append(" ");
+            } else {
+                sb.append(marker.getText());
+            }
             sb.append(';');
             sb.append(marker.getPicture());
             sb.append('\n');

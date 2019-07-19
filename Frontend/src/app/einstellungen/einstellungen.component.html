@@ -1,0 +1,11 @@
+<form class = "formular">
+  <mat-form-field class = "textBox">
+    <input matInput maxlength="15" placeholder="Name des Markers" (keyup)="onKey($event)">
+  </mat-form-field>
+  <mat-radio-group class="button-group">
+    <mat-radio-button class="radio-button" *ngFor="let bild of bilder" [value]="bild" (change)="radioChange(bild)">
+      <img [src]="bild" alt="Icon">
+    </mat-radio-button>
+  </mat-radio-group>
+</form>
+

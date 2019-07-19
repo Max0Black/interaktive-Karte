@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {MarkerModel} from '../model/markerModel';
 import {AbfrageBackend} from '../abfragen/abfrageBackend';
 
@@ -9,38 +9,40 @@ import {AbfrageBackend} from '../abfragen/abfrageBackend';
 })
 export class MapComponent {
 
-  text = '';
-  ein = false;
   marker: MarkerModel[] = [];
 
-  constructor(private abfrage: AbfrageBackend) { }
+  constructor(private abfrage: AbfrageBackend) {
+    this.getAllMarker();
+  }
 
-  onKey(event: KeyboardEvent) {
-    this.text = (event.target as HTMLInputElement).value;
+  getAllMarker() {
+    this.abfrage.getEintraege().subscribe(value => {
+      this.marker = value;
+    });
   }
 
   doClick(event) {
     const model = new MarkerModel();
-    const x = event.x;
-    const y = event.y;
 
     model.positionX = event.offsetX;
-    model.positionY = event.offsetY;
-    model.text = this.text;
+    model.positionY = event.offsetY + 90;
 
-    this.ein = false;
+    if (sessionStorage.getItem('Text') === null) {
+      model.text = ' ';
+    } else {
+      model.text = sessionStorage.getItem('Text');
+    }
+    model.picture = sessionStorage.getItem('Bild');
+
     this.marker.push(model);
-    this.ein = true;
-    this.abfrage.addEintrag(model);
+    this.abfrage.addEintrag(model).subscribe();
   }
 
   getStyle(position: MarkerModel) {
-    const tsStyle = {
+    return {
       position: 'absolute',
       left: position.positionX + 'px',
       top: position.positionY + 'px'
     };
-
-    return tsStyle;
   }
 }

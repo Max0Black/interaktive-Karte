@@ -1,12 +1,7 @@
-<div>
-  <input (keyup)="onKey($event)">
-</div>
 <div class="interaktiv" (click)="doClick($event)">
-  <div *ngIf="ein">
     <div *ngFor="let position of marker">
       <div [ngStyle]="getStyle(position)">
-        <img src="../../Bilder/X.png"> {{position.text}}
+        <img [src]="position.picture"> {{position.text}}
       </div>
     </div>
-  </div>
 </div>

@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MarkerModel } from '../model/markerModel';
+import {environment} from '../../environments/environment.prod';
 
 export class AbfrageBackend {
-  private URL: 'http://localhost:8080';
-  private EINTRAEGE_ERHALTEN: '/getAllEintraege';
-  private EINTRAG_HINZUFUEGEN: '/addEintrag';
+  private EINTRAEGE_ERHALTEN = '/getAllEintraege';
+  private EINTRAG_HINZUFUEGEN = '/addEintrag';
 
   constructor( private client: HttpClient) { }
 
   getEintraege(): Observable<MarkerModel[]> {
-    return this.client.get<MarkerModel[]>(this.URL + this.EINTRAEGE_ERHALTEN);
+    return this.client.get<MarkerModel[]>(environment.url + this.EINTRAEGE_ERHALTEN);
   }
 
   addEintrag(marker: MarkerModel) {
@@ -20,6 +20,7 @@ export class AbfrageBackend {
       text: marker.text,
       picture: marker.picture
     };
-    this.client.post(this.URL + this.EINTRAG_HINZUFUEGEN, body);
+
+    return this.client.post(environment.url + this.EINTRAG_HINZUFUEGEN, body);
   }
 }
